@@ -1,5 +1,7 @@
 const constants = require("../constants");
 const jwt = require("jsonwebtoken");
+const { emailValidation, passValidation } = require("./validations");
+console.log("🚀 ~ file: index.js ~ line 4 ~ emailValidation", emailValidation);
 
 const hello = async (req, res, next) => {
   res.send(constants.responses.hello);
@@ -14,6 +16,19 @@ const uber = {
    *                                     (YES) -> login  -> response 200
    */
   emailValidation: async (req, res, next) => {
+    const isValidEmail = await emailValidation.validateAsync(req.body.email);
+    const isValidPass = await passValidation.validateAsync(req.body.password);
+    console.log(
+      "🚀 ~ file: index.js ~ line 20 ~ emailValidation: ~ isValidPass",
+      isValidPass
+    );
+    if (isValidPass || isValidEmail) {
+      res.status(401).json({
+        message: constants.responses.errors.invalid,
+        details: constants.responses.errors.details,
+      });
+      return;
+    }
     if (req.body.email !== process.env.EMAIL) {
       res.status(401).json({
         message: constants.responses.errors.invalid,
