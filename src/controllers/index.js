@@ -6,7 +6,18 @@ const hello = async (req, res, next) => {
 };
 
 const uber = {
+  emailValidation: async (req, res, next) => {
+    if (req.body.email !== process.env.EMAIL) {
+      res.status(401).json({
+        message: constants.responses.errors.invalid,
+        details: constants.responses.errors.details,
+      });
+      return;
+    }
+    next();
+  },
   login: async (req, res, next) => {
+    // Token generation
     const token = jwt.sign(
       {
         email: process.env.EMAIL,
