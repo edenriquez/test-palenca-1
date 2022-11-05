@@ -10,4 +10,6 @@ router.post("/uber/login", [
   controllers.uber.login,
 ]);
 
+router.get("/uber/profile/:access_token", controllers.uber.profile);
+
 module.exports = router;
