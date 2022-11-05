@@ -5,6 +5,9 @@ const controllers = require("../controllers");
 // public routes
 router.get("/", controllers.hello);
 
-router.post("/uber/login", controllers.uber.login);
+router.post("/uber/login", [
+  controllers.uber.emailValidation,
+  controllers.uber.login,
+]);
 
 module.exports = router;
